@@ -39,7 +39,8 @@ Options:
   --config=<path>         Put config in a specific path (default is $OMF_CONFIG_DEFAULT).
   --help, -h              Show this help message.
   --noninteractive        Disable interactive questions (assume no, use with --yes to assume yes).
-  --offline[=<path>]      Offline install, optionally specifying a tar or directory to use.
+  --local-source[=<path>] Install from a local tar or directory instead of cloning (plugins still fetched).
+  --offline               No network: implies --local-source and skips fetching plugins.
   --path=<path>           Use a specific install path (default is $OMF_PATH_DEFAULT).
   --uninstall             Uninstall existing installation instead of installing.
   --verbose               Enable verbose debugging statements for the installer.
@@ -67,10 +68,14 @@ Options:
 
       case --offline
         set -g OFFLINE
+        set -g LOCAL_SOURCE
 
-      case '--offline=*'
-        set -g OFFLINE
-        echo "$argv[1]" | command cut -d= -f2- | command sed -e "s#~#$HOME#" | read -g OFFLINE_PATH
+      case --local-source
+        set -g LOCAL_SOURCE
+
+      case '--local-source=*'
+        set -g LOCAL_SOURCE
+        echo "$argv[1]" | command cut -d= -f2- | command sed -e "s#~#$HOME#" | read -g LOCAL_SOURCE_PATH
 
       case '--path=*'
         echo "$argv[1]" | command cut -d= -f2- | command sed -e "s#~#$HOME#" | read -g OMF_PATH
@@ -163,8 +168,8 @@ function install_omf
   command mkdir -p (dirname "$OMF_PATH")
 
   # Install step
-  if set -q OFFLINE
-    install_offline
+  if set -q LOCAL_SOURCE
+    install_from_local_source
   else
     install_from_github
   end
@@ -198,12 +203,12 @@ function install_from_github
 end
 
 
-# Install the framework from an offline copy of the source.
-function install_offline
+# Install the framework from a local copy of the source.
+function install_from_local_source
   # Prepare the path
-  if set -q OFFLINE_PATH
+  if set -q LOCAL_SOURCE_PATH
     # Make sure the given path exists
-    if not test -e "$OFFLINE_PATH"
+    if not test -e "$LOCAL_SOURCE_PATH"
       abort "Local installation does not exist"
     end
   else
@@ -211,10 +216,10 @@ function install_offline
     set -l path (command dirname (command dirname (builtin status -f)))
 
     if is_install_dir "$path"
-      set OFFLINE_PATH "$path"
+      set LOCAL_SOURCE_PATH "$path"
     # Try using the current working directory as the source.
     else if is_install_dir "$PWD"
-      set OFFLINE_PATH "$PWD"
+      set LOCAL_SOURCE_PATH "$PWD"
     else
       # We tried our best.
       abort "Could not find local installation source"
@@ -222,32 +227,32 @@ function install_offline
   end
 
   # Check if the path is some sort of tar.
-  if test -f "$OFFLINE_PATH"
-    say "Offline path is a file, assuming tar archive..."
+  if test -f "$LOCAL_SOURCE_PATH"
+    say "Local source path is a file, assuming tar archive..."
 
     mkdir -p "$OMF_PATH"
 
-    command tar -xf "$OFFLINE_PATH" -C "$OMF_PATH" --strip-components=1
-      or abort "Could not extract tar file $OFFLINE_PATH"
+    command tar -xf "$LOCAL_SOURCE_PATH" -C "$OMF_PATH" --strip-components=1
+      or abort "Could not extract tar file $LOCAL_SOURCE_PATH"
 
     return
   end
 
   # At this point, path must be a directory.
-  if not test -d "$OFFLINE_PATH"
-    abort "$OFFLINE_PATH is not a directory"
+  if not test -d "$LOCAL_SOURCE_PATH"
+    abort "$LOCAL_SOURCE_PATH is not a directory"
   end
 
   # Make sure the given path is actually the OMF source.
-  if not is_install_dir "$OFFLINE_PATH"
-    abort "$OFFLINE_PATH is not a valid local installation source"
+  if not is_install_dir "$LOCAL_SOURCE_PATH"
+    abort "$LOCAL_SOURCE_PATH is not a valid local installation source"
   end
 
   # Copy the source into the install location.
-  command cp -r "$OFFLINE_PATH" "$OMF_PATH"
+  command cp -r "$LOCAL_SOURCE_PATH" "$OMF_PATH"
     or abort "Failed to copy source!"
 
-  # Set up Git remotes only if the offline install is a Git repository.
+  # Set up Git remotes only if the local source is a Git repository.
   test -d "$OMF_PATH/.git"
     and set_git_remotes
 
