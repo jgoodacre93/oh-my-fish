@@ -44,7 +44,7 @@ fish install --path=~/.local/share/omf --config=~/.config/omf
 U kunt de integriteit van het installatiescript verifiëren met [deze controlesom](/bin/install.sha256):
 
 ```
-bb1f4025934600ea6feef2ec11660e17e2b6449c5a23c033860aed712ad328c9 install
+curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install.sha256 | shasum -a 256 --check
 ```
 
 Ook kunt u Oh My Fish installeren middels Git of een lokale brontarball van de [uitgavenpagina][releases]:
