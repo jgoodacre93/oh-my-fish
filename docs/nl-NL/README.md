@@ -3,7 +3,7 @@
 
 > Het <a href="http://fishshell.com">Fish-shell</a> framework
 
-[![MIT License](https://img.shields.io/badge/license-MIT-007EC7.svg?style=flat-square)](/LICENSE) [![Fish Shell Version](https://img.shields.io/badge/fish-≥v2.2.0-007EC7.svg?style=flat-square)](http://fishshell.com) [![Travis Build Status](http://img.shields.io/travis/oh-my-fish/oh-my-fish.svg?style=flat-square)](https://travis-ci.org/oh-my-fish/oh-my-fish) [![Slack Status](https://oh-my-fish-slack.herokuapp.com/badge.svg)](https://oh-my-fish-slack.herokuapp.com)
+[![MIT License](https://img.shields.io/badge/license-MIT-007EC7.svg?style=flat-square)](/LICENSE) [![Fish Shell Version](https://img.shields.io/badge/fish-≥v3.0.0-007EC7.svg?style=flat-square)](http://fishshell.com) [![Travis Build Status](http://img.shields.io/travis/oh-my-fish/oh-my-fish.svg?style=flat-square)](https://travis-ci.org/oh-my-fish/oh-my-fish) [![Slack Status](https://oh-my-fish-slack.herokuapp.com/badge.svg)](https://oh-my-fish-slack.herokuapp.com)
 
 
 Oh My Fish biedt kerninfrastructuur zodat u pakketten kunt installeren om uw shell uit te breiden of aan te passen. Het is snel, uitbreidbaar en eenvoudig te gebruiken.
@@ -63,7 +63,7 @@ Voer `install --help` uit om een volledige lijst met installatieopties te bekijk
 
 #### Vereisten
 
-- **fish**-shell, versie 2.2 of hoger
+- **fish**-shell, versie 3.0 of hoger
 - **git**, versie 1.9.5 of hoger
 
 #### Gemelde problemen
