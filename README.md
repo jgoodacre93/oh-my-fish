@@ -49,17 +49,19 @@ You can verify the integrity of the downloaded installer by verifying the script
 curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install.sha256 | shasum -a 256 --check
 ```
 
-You can also install Oh My Fish with Git or with an offline source tarball downloaded from the [releases page][releases]:
+You can also install Oh My Fish with Git or with a local source tarball downloaded from the [releases page][releases]:
 
 ```fish
 # with git
 $ git clone https://github.com/oh-my-fish/oh-my-fish
 $ cd oh-my-fish
-$ bin/install --offline
+$ bin/install --local-source
 # with a tarball
 $ curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install > install
-$ fish install --offline=omf.tar.gz
+$ fish install --local-source=omf.tar.gz
 ```
+
+> If you have no network access at all, use `--offline` instead. It behaves like `--local-source` but additionally skips fetching plugins — you can run `omf install` to fetch them later when network access is available.
 
 Run `install --help` for a complete list of install options you can customize.
 

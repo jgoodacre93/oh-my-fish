@@ -54,10 +54,10 @@ También puede insatalar Oh My Fish mediante Git o con un archivo tarball descar
 # with git
 $ git clone https://github.com/oh-my-fish/oh-my-fish
 $ cd oh-my-fish
-$ bin/install --offline
+$ bin/install --local-source
 # with a tarball
 $ curl -L https://get.oh-my.fish > install
-$ fish install --offline=omf.tar.gz
+$ fish install --local-source=omf.tar.gz
 ```
 
 Ejecute `install --help` para obtener una lista completa de opciones de instalación que puede personalizar.
