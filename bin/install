@@ -105,9 +105,7 @@ Options:
   assert_interactive
 
   # Ensure the environment meets all of the requirements.
-  if not sane_environment_check
-    abort "Environment does not meet the requirements."
-  end
+  sane_environment_check
 
   # If the user wants to uninstall, jump to uninstallation and exit.
   if set -q UNINSTALL
